@@ -1,6 +1,6 @@
 {
   "name": "leapond-deepmerge",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Object, Array, Set, Map supported deepmerge.",
   "main": "index.js",
   "scripts": {

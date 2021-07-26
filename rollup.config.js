@@ -1,24 +1,22 @@
-import serve from "rollup-plugin-serve";
-import commonjs from "@rollup/plugin-commonjs";
 import nodeResolve from "@rollup/plugin-node-resolve";
 
 export default [
   {
-    input: 'index.js',
+    input: 'src/deepMerge.js',
     output: {
-      file: 'public/index.browser.js',
+      file: 'libs/deep-merge.browser.js',
       format: 'iife',
-      sourcemap: true,
+      sourcemap: false,
       name: 'deppMerge'
     },
-    plugins: [commonjs(), nodeResolve(), serve('public')]
-  },{
-    input: 'index.js',
+    plugins: [nodeResolve()]
+  }, {
+    input: 'src/deepMerge.js',
     output: {
-      file: 'public/index.esm.js',
+      file: 'libs/deep-merge.esm.js',
       format: 'es',
-      sourcemap: true
+      sourcemap: false
     },
-    plugins: [commonjs(), nodeResolve(), serve('public')]
+    plugins: [nodeResolve()]
   }
 ]
