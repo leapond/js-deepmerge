@@ -1,4 +1,4 @@
-import {deepMerge} from "./libs/deep-merge.esm";
+import deepMerge from "../src/deepMerge";
 
 let a1 = 1, a2 = undefined,
     b1 = {

@@ -1,42 +1,40 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const toStr$1 = Object.prototype.toString;
-const mergeTypes$1 = {'[object Object]': 1, '[object Array]': 2, '[object Set]': 3, '[object Map]': 4};
+var toStr$1 = Object.prototype.toString;
+var mergeTypes$1 = {'[object Object]': 1, '[object Array]': 2, '[object Set]': 3, '[object Map]': 4};
 
 function getMergeType$1(target) {
   return mergeTypes$1[toStr$1.call(target)] || 0
 }
 
-function deepCopy(target, depthMax = Infinity) {
-  if (!target) return target
-  let args = arguments, typeTarget = args[2], depthCurrent = args[3] || 0, aLoops = args[4], dest, v;
-  if (!(typeTarget > -1)) typeTarget = getMergeType$1(target);
-  if (!typeTarget || depthCurrent >= depthMax) return target
+function deepCopy(target, depthMax) {
+  if ( depthMax === void 0 ) depthMax = Infinity;
+
+  if (!target) { return target }
+  var args = arguments, typeTarget = args[2], depthCurrent = args[3] || 0, aLoops = args[4], dest, v;
+  if (!(typeTarget > -1)) { typeTarget = getMergeType$1(target); }
+  if (!typeTarget || depthCurrent >= depthMax) { return target }
 
   depthCurrent++;
 
-  aLoops = aLoops ? [...aLoops, target] : [target];
+  aLoops = aLoops ? aLoops.concat( [target]) : [target];
 
   switch (typeTarget) {
     case 1:
     case 2:
       dest = typeTarget === 1 ? {} : [];
-      Object.keys(target).forEach(k => {
+      Object.keys(target).forEach(function (k) {
         v = target[k];
         dest[k] = aLoops.includes(v) ? v : deepCopy(v, depthMax, -1, depthCurrent, aLoops);
       });
       return dest
     case 3:
       dest = new Set;
-      [...target.values()].forEach(v => {
+      [].concat( target.values() ).forEach(function (v) {
         dest.add(deepCopy(v, depthMax, -1, depthCurrent, aLoops));
       });
       return dest
     case 4:
       dest = new Map;
-      [...target.entries()].forEach(v => {
+      [].concat( target.entries() ).forEach(function (v) {
         dest.set(v[0], deepCopy(v[1], depthMax, -1, depthCurrent, aLoops));
       });
       return dest
@@ -44,8 +42,8 @@ function deepCopy(target, depthMax = Infinity) {
   return target
 }
 
-const toStr = Object.prototype.toString;
-const mergeTypes = {'[object Object]': 1, '[object Array]': 2, '[object Set]': 3, '[object Map]': 4};
+var toStr = Object.prototype.toString;
+var mergeTypes = {'[object Object]': 1, '[object Array]': 2, '[object Set]': 3, '[object Map]': 4};
 
 function getMergeType(target) {
   return target &&
@@ -65,7 +63,7 @@ function getMergeType(target) {
  * @property ARRAY_SEAL - fixed length
  * @property ARRAY_FREEZE - ignore source
  */
-const arrayMergePolicies = {
+var arrayMergePolicies = {
   ARRAY_NORMAL: 1,
   ARRAY_NORMAL_FIXED: 1.1,
   ARRAY_CONCAT: 2,
@@ -74,7 +72,7 @@ const arrayMergePolicies = {
   ARRAY_SEAL: 4,
   ARRAY_FREEZE: 5
 };
-const optionsDefault = {
+var optionsDefault = {
   __v__: 1,
   clone: -Infinity,
   unEnumerableInclude: false,
@@ -84,7 +82,7 @@ const optionsDefault = {
   deepMap: true
 };
 
-const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/);
+var INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/);
 
 /**
  * @typedef mergeOptions
@@ -102,11 +100,11 @@ const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/);
  * @return {*|{}|[]|[]}
  */
 function deepMerge(target, source, options) {
-  let isRoot = true, aLoops, depthCurrent = 0, typeTarget = getMergeType(target), typeSource = getMergeType(source);
+  var isRoot = true, aLoops, depthCurrent = 0, typeTarget = getMergeType(target), typeSource = getMergeType(source);
   // clone source while target type is not same with source
-  if (!typeTarget || typeTarget !== typeSource) return source
+  if (!typeTarget || typeTarget !== typeSource) { return source }
   // detect root and merge options
-  if (options && options[INNER_MARK]) isRoot = false; else options = parseOptions(options);
+  if (options && options[INNER_MARK]) { isRoot = false; } else { options = parseOptions(options); }
   // init loop circle and depth recorder
   if (isRoot) {
     // create new loops
@@ -114,33 +112,33 @@ function deepMerge(target, source, options) {
     depthCurrent = aLoops.depthCurrent = 1;
   } else {
     // concat loops
-    const aLoopsPrev = arguments[3];
-    aLoops = [...aLoopsPrev, source];
+    var aLoopsPrev = arguments[3];
+    aLoops = aLoopsPrev.concat( [source]);
     // detect circled loops
-    if (aLoopsPrev.includes(source)) return source
+    if (aLoopsPrev.includes(source)) { return source }
     // increase current depth
     depthCurrent = aLoopsPrev.depthCurrent + 1;
   }
   // clone source while target is empty
-  if (!target) return source
+  if (!target) { return source }
 
   // store current depth on loops array property
   aLoops.depthCurrent = depthCurrent;
 
   // clone target current level
   //if (options.clone && (options.clone > 0 ? depthCurrent <= options.clone : depthCurrent >= -options.clone)) target = deepCopy(target, 1)
-  if ((options.clone > 0 && depthCurrent <= options.clone) || (options.clone < 0 && depthCurrent > -options.clone)) target = deepCopy(target, 1);
+  if ((options.clone > 0 && depthCurrent <= options.clone) || (options.clone < 0 && depthCurrent > -options.clone)) { target = deepCopy(target, 1); }
 
   switch (typeSource) {
     case 1: // Object
-      let keys;
-      if (options.unEnumerableInclude) keys = [...Object.getOwnPropertyNames(source), ...Object.getOwnPropertySymbols(source)]; else keys = Object.keys(source);
-      keys.forEach(key => {
+      var keys;
+      if (options.unEnumerableInclude) { keys = Object.getOwnPropertyNames(source).concat( Object.getOwnPropertySymbols(source)); } else { keys = Object.keys(source); }
+      keys.forEach(function (key) {
         target[key] = deepMerge(target[key], source[key], options, aLoops);
       });
       break
     case 2: // Array
-      if (options.arrayMerge) return options.arrayMerge(target, source)
+      if (options.arrayMerge) { return options.arrayMerge(target, source) }
 
       switch (options.arrayPolicy) {
         case arrayMergePolicies.ARRAY_FREEZE:
@@ -148,10 +146,10 @@ function deepMerge(target, source, options) {
         case arrayMergePolicies.ARRAY_SEAL:
         case arrayMergePolicies.ARRAY_NORMAL:
         case arrayMergePolicies.ARRAY_NORMAL_FIXED:
-          Object.keys(source).forEach(key => {
+          Object.keys(source).forEach(function (key) {
             if (key in target) {
-              if (options.arrayPolicy === arrayMergePolicies.ARRAY_NORMAL_FIXED) return
-            } else if (options.arrayPolicy === arrayMergePolicies.ARRAY_SEAL) return
+              if (options.arrayPolicy === arrayMergePolicies.ARRAY_NORMAL_FIXED) { return }
+            } else if (options.arrayPolicy === arrayMergePolicies.ARRAY_SEAL) { return }
 
             target[key] = deepMerge(target[key], source[key], options, aLoops);
           });
@@ -159,23 +157,23 @@ function deepMerge(target, source, options) {
         case arrayMergePolicies.ARRAY_REPLACE:
           return source
         case arrayMergePolicies.ARRAY_CONCAT:
-          source.forEach((v, i) => {
+          source.forEach(function (v, i) {
             target.push(deepMerge(target[i], v, options, aLoops));
           });
           break
         case arrayMergePolicies.ARRAY_CONCAT_UNIQ:
-          source.forEach((v, i) => {
+          source.forEach(function (v, i) {
             !target.includes(v) && target.push(deepMerge(target[i], v, options, aLoops));
           });
       }
       break
     case 3:
-      [...source.values()].forEach(v => {
+      [].concat( source.values() ).forEach(function (v) {
         target.add(v);
       });
       break
     case 4:
-      [...source.entries()].forEach(v => {
+      [].concat( source.entries() ).forEach(function (v) {
         target.set(v[0], options.deepMap ? deepMerge(target.get(v[0]), v[1], options, aLoops) : v[1]);
       });
       break
@@ -191,15 +189,16 @@ function deepMerge(target, source, options) {
  */
 deepMerge.batch = function (aTargets, options) {
   options = parseOptions(options);
-  return aTargets.reduce((a, b) => deepMerge(a, b, options))
+  return aTargets.reduce(function (a, b) { return deepMerge(a, b, options); })
 };
 
 function parseOptions(options) {
   options = Object.assign({}, optionsDefault, options);
-  if (options.clone === true) options.clone = Infinity; else if (!(options.clone >= -Infinity)) options.clone = optionsDefault.clone;
+  if (options.clone === true) { options.clone = Infinity; } else if (!(options.clone >= -Infinity)) { options.clone = optionsDefault.clone; }
   return options
 }
 
 Object.assign(deepMerge, arrayMergePolicies);
 
-exports.deepMerge = deepMerge;
+export default deepMerge;
+//# sourceMappingURL=deep-merge.es.js.map

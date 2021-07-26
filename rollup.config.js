@@ -1,32 +1,18 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import serve from "rollup-plugin-serve";
+import buble from "@rollup/plugin-buble";
 
-const isDev = process.env.NODE_ENV !== 'production'
-export default [
-  {
-    input: 'src/deepMerge.js',
-    output: {
-      file: 'libs/deep-merge.browser.js',
-      format: 'iife',
-      sourcemap: false,
-      name: 'deppMerge'
-    },
-    plugins: [nodeResolve()]
-  }, {
-    input: 'src/deepMerge.js',
-    output: {
-      file: 'libs/deep-merge.esm.js',
-      format: 'es',
-      sourcemap: false
-    },
-    plugins: [nodeResolve(), isDev && serve('libs') || null]
-  }, {
-    input: 'src/deepMerge.js',
-    output: {
-      file: 'libs/deep-merge.cjs.js',
-      format: 'cjs',
-      sourcemap: false
-    },
-    plugins: [nodeResolve()]
-  }
-]
+const isDev = process.env.NODE_ENV !== 'production',
+    pkg = require('./package.json'),
+    external = pkg.dependencies
+
+export default {
+  input: 'src/deepMerge.js',
+  output: [
+    {file: pkg.main, format: 'cjs', sourcemap: true, exports: 'auto'},
+    {file: pkg.module, format: 'es', sourcemap: true},
+    {file: pkg.browser, format: 'iife', sourcemap: true, name: 'deepMerge'},
+  ],
+  plugins: [nodeResolve(), buble(), isDev && serve('dist') || null],
+  external: external
+}

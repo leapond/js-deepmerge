@@ -147,4 +147,4 @@ function parseOptions(options) {
 
 Object.assign(deepMerge, arrayMergePolicies)
 
-export {deepMerge}
+export default deepMerge
