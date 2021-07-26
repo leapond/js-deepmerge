@@ -1,0 +1,54 @@
+{
+  "name": "leapond-deepmerge",
+  "version": "1.0.0",
+  "description": "Object, Array, Set, Map supported deepmerge.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rollup -wc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leapond/js-deepmerge.git"
+  },
+  "keywords": [
+    "deepmerge",
+    "deep",
+    "merge",
+    "Object",
+    "Array",
+    "Set",
+    "Map",
+    "depth",
+    "limitation",
+    "max",
+    "depth",
+    "leapond"
+  ],
+  "author": "Leapond, Inc. (https://www.leapond.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leapond/js-deepmerge/issues"
+  },
+  "homepage": "https://github.com/leapond/js-deepmerge#readme",
+  "dependencies": {
+    "leapond-deepcopy": "^1.0.1",
+    "leapond-js-utils": "^1.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "@rollup/plugin-commonjs": "^19.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@types/jest": "^26.0.24",
+    "assert": "^2.0.0",
+    "jest": "^27.0.6",
+    "rollup": "^2.54.0",
+    "rollup-plugin-serve": "^1.1.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!leapond)(.*)"
+    ]
+  }
+}
