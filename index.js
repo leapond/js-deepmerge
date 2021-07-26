@@ -38,6 +38,7 @@ const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
  * @property {function} [arrayMerge] - custom array merger, (a, b) => result
  * @property {boolean} [deepMap=true] - if dig in Map items
  */
+
 /**
  * @param target
  * @param source
