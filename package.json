@@ -1,9 +1,10 @@
 {
   "name": "leapond-deepmerge",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Object, Array, Set, Map supported deepmerge.",
   "main": "libs/deep-merge.esm.js",
   "scripts": {
+    "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -wc",
     "test": "jest"
   },
@@ -38,7 +39,6 @@
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
-    "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@types/jest": "^26.0.24",
     "assert": "^2.0.0",

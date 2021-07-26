@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <!--
+  <link rel="icon" href="favicon.ico"/>
+  <link rel="stylesheet" href="client/index.css"/>
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>deepMerge</title>
+</head>
+<body>
+<h1>deep merge test</h1>
+<p>view in console.</p>
+<script type="module">
+  import {deepMerge} from "./deep-merge.esm.js";
+  // clone test
+  let x = {a: {b: {c: {x: 1}}}}, x1 = {a: {b: {c: {x: 2}}}}
+  let a = x.a, b = a.b, c = b.c, d = c.x
+  let x2 = deepMerge(x, x1, {clone: -2}), x3
+  console.log(x2 === x, x2.a === a, x2.a.b === b, x2.a.b.c === c, x2.a.b.c.x)
+  //
+  x = {a: {b: {c: {x: 10}}}}, x1 = {a: {b: {c: {x: 30}}}}
+  a = x.a, b = a.b, c = b.c, d = c.x
+  x3 = deepMerge(x, x1, {clone: 2})
+  console.log(x3 === x, x3.a === a, x3.a.b === b, x3.a.b.c === c, x3.a.b.c.x)
+
+  console.log(deepMerge.batch([null, {a:1}, {b:2}, {c:3}]))
+</script>
+<!--
+<script nomodule defer src="index.browser.babel.js"></script>
+-->
+</body>
+</html>

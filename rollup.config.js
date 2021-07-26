@@ -1,6 +1,7 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
+import serve from "rollup-plugin-serve";
 
+const isDev = process.env.NODE_ENV !== 'production'
 export default [
   {
     input: 'src/deepMerge.js',
@@ -18,7 +19,7 @@ export default [
       format: 'es',
       sourcemap: false
     },
-    plugins: [nodeResolve()]
+    plugins: [nodeResolve(), isDev && serve('libs') || null]
   }, {
     input: 'src/deepMerge.js',
     output: {
@@ -26,6 +27,6 @@ export default [
       format: 'cjs',
       sourcemap: false
     },
-    plugins: [nodeResolve(), commonjs()]
+    plugins: [nodeResolve()]
   }
 ]
