@@ -1,8 +1,8 @@
 {
   "name": "leapond-deepmerge",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Object, Array, Set, Map supported deepmerge.",
-  "main": "index.js",
+  "main": "libs/deep-merge.esm.js",
   "scripts": {
     "dev": "rollup -wc",
     "test": "jest"
