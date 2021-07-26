@@ -55,6 +55,8 @@ console.log(deepMerge.batch([
 
 ## Options
 
+* `arrayMerge` Function with higher priority to `arrayPolicy`
+
 ```javascript
 /**
  * @typedef mergeOptions
