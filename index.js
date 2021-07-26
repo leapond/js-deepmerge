@@ -28,15 +28,20 @@ const optionsDefault = {
   arrayMerge: undefined,
   deepMap: true
 }
+
+const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
+/**
+ * @typedef mergeOptions
+ * @property {boolean|number} [clone=-Infinity] - if clone target. <br/>> true for all, false for none, <br/>> number<0 for reuse depth, number>0 for clone depth
+ * @property {boolean} [unEnumerableInclude=false] - if include keys not enumerable(and Symbol keys)
+ * @property {arrayMergePolicies} [arrayPolicy=ARRAY_NORMAL] - array merge policy of build-in
+ * @property {function} [arrayMerge] - custom array merger, (a, b) => result
+ * @property {boolean} [deepMap=true] - if dig in Map items
+ */
 /**
  * @param target
  * @param source
- * @param options
- * @param {boolean|number = -Infinity} options.clone - if clone target. <br/>> true for all, false for none, <br/>> number<0 for reuse depth, number>0 for clone depth
- * @param {boolean} options.unEnumerableInclude - if include keys not enumerable
- * @param {arrayMergePolicies} [options.arrayPolicy=ARRAY_NORMAL] - array merge policy of build-in
- * @param {function} [options.arrayMerge] - custom array merger, (a, b) => result
- * @param {boolean} [options.deepMap=true] - if dig in Map items
+ * @param {mergeOptions} [options]
  * @return {*|{}|[]|[]}
  */
 export default function deepMerge(target, source, options) {
@@ -44,11 +49,7 @@ export default function deepMerge(target, source, options) {
   // clone source while target type is not same with source
   if (!typeTarget || typeTarget !== typeSource) return source
   // detect root and merge options
-  if (options && options.__v__) isRoot = false; else {
-    options = Object.assign({}, optionsDefault, options)
-    // confirm depth option is right assigned
-    if (options.clone === true) options.clone = Infinity; else if (!(options.clone >= -Infinity)) options.clone = optionsDefault.clone
-  }
+  if (options && options[INNER_MARK]) isRoot = false; else options = parseOptions(options)
   // init loop circle and depth recorder
   if (isRoot) {
     // create new loops
@@ -122,4 +123,22 @@ export default function deepMerge(target, source, options) {
   }
   return target
 }
+
+/**
+ *
+ * @param {Object[]} aTargets
+ * @param {mergeOptions} [options]
+ * @return {*}
+ */
+deepMerge.batch = function (aTargets, options) {
+  options = parseOptions(options)
+  return aTargets.reduce((a, b) => deepMerge(a, b, options))
+}
+
+function parseOptions(options) {
+  options = Object.assign({}, optionsDefault, options)
+  if (options.clone === true) options.clone = Infinity; else if (!(options.clone >= -Infinity)) options.clone = optionsDefault.clone
+  return options
+}
+
 Object.assign(deepMerge, arrayMergePolicies)
