@@ -4,7 +4,6 @@
   "description": "Object, Array, Set, Map supported deepmerge.",
   "main": "dist/deep-merge.cjs.js",
   "module": "dist/deep-merge.es.js",
-  "browser": "dist/deep-merge.iife.js",
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -wc",
