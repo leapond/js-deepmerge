@@ -87,6 +87,8 @@ export default function deepMerge(target, source, options) {
       if (options.arrayMerge) return options.arrayMerge(target, source)
 
       switch (options.arrayPolicy) {
+        case arrayMergePolicies.ARRAY_FREEZE:
+          return target
         case arrayMergePolicies.ARRAY_SEAL:
         case arrayMergePolicies.ARRAY_NORMAL:
         case arrayMergePolicies.ARRAY_NORMAL_FIXED:
