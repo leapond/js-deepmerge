@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 const toStr$1 = Object.prototype.toString;
 const mergeTypes$1 = {'[object Object]': 1, '[object Array]': 2, '[object Set]': 3, '[object Map]': 4};
 
@@ -198,4 +202,4 @@ function parseOptions(options) {
 
 Object.assign(deepMerge, arrayMergePolicies);
 
-export { deepMerge };
+exports.deepMerge = deepMerge;

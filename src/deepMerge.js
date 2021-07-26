@@ -30,6 +30,7 @@ const optionsDefault = {
 }
 
 const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
+
 /**
  * @typedef mergeOptions
  * @property {boolean|number} [clone=-Infinity] - if clone target. <br/>> true for all, false for none, <br/>> number<0 for reuse depth, number>0 for clone depth
@@ -45,7 +46,7 @@ const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
  * @param {mergeOptions} [options]
  * @return {*|{}|[]|[]}
  */
-export default function deepMerge(target, source, options) {
+function deepMerge(target, source, options) {
   let isRoot = true, aLoops, depthCurrent = 0, typeTarget = getMergeType(target), typeSource = getMergeType(source)
   // clone source while target type is not same with source
   if (!typeTarget || typeTarget !== typeSource) return source
@@ -145,3 +146,5 @@ function parseOptions(options) {
 }
 
 Object.assign(deepMerge, arrayMergePolicies)
+
+export {deepMerge}

@@ -1,4 +1,4 @@
-var deppMerge = (function () {
+var deppMerge = (function (exports) {
   'use strict';
 
   const toStr$1 = Object.prototype.toString;
@@ -84,6 +84,7 @@ var deppMerge = (function () {
   };
 
   const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/);
+
   /**
    * @typedef mergeOptions
    * @property {boolean|number} [clone=-Infinity] - if clone target. <br/>> true for all, false for none, <br/>> number<0 for reuse depth, number>0 for clone depth
@@ -200,6 +201,10 @@ var deppMerge = (function () {
 
   Object.assign(deepMerge, arrayMergePolicies);
 
-  return deepMerge;
+  exports.deepMerge = deepMerge;
 
-}());
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+  return exports;
+
+}({}));

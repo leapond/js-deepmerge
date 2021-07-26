@@ -1,4 +1,5 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 
 export default [
   {
@@ -18,5 +19,13 @@ export default [
       sourcemap: false
     },
     plugins: [nodeResolve()]
+  }, {
+    input: 'src/deepMerge.js',
+    output: {
+      file: 'libs/deep-merge.cjs.js',
+      format: 'cjs',
+      sourcemap: false
+    },
+    plugins: [nodeResolve(), commonjs()]
   }
 ]
