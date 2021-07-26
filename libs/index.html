@@ -14,6 +14,8 @@
 <p>view in console.</p>
 <script type="module">
   import {deepMerge} from "./deep-merge.esm.js";
+  // for playing in console
+  window.deepMerge = deepMerge
   // clone test
   let x = {a: {b: {c: {x: 1}}}}, x1 = {a: {b: {c: {x: 2}}}}
   let a = x.a, b = a.b, c = b.c, d = c.x
@@ -25,7 +27,7 @@
   x3 = deepMerge(x, x1, {clone: 2})
   console.log(x3 === x, x3.a === a, x3.a.b === b, x3.a.b.c === c, x3.a.b.c.x)
 
-  console.log(deepMerge.batch([null, {a:1}, {b:2}, {c:3}]))
+  console.log(deepMerge.batch([null, {a: 1}, {b: 2}, {c: 3}]))
 </script>
 <!--
 <script nomodule defer src="index.browser.babel.js"></script>
