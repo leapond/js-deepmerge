@@ -65,3 +65,17 @@ console.log(deepMerge.batch([
  * @property {boolean} [deepMap=true] - if dig in Map items
  */
 ```
+
+## Array Merge Policies
+
+```javascript
+/**
+ * @property ARRAY_NORMAL - write by index
+ * @property ARRAY_NORMAL_FIXED - existed items will be readonly, but can attach new items
+ * @property ARRAY_CONCAT - concat to target array
+ * @property ARRAY_CONCAT_UNIQ - concat to target array, but skip existed item
+ * @property ARRAY_REPLACE - replace whole array
+ * @property ARRAY_SEAL - fixed length
+ * @property ARRAY_FREEZE - ignore source
+ */
+```
