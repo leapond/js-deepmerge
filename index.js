@@ -19,21 +19,24 @@ const arrayMergePolicies = {
   ARRAY_SEAL: 4,
   ARRAY_FREEZE: 5
 }
-/**
- * @type {{__v__: number, unEnumerableInclude: boolean, arrayPolicy: number, clone: number, arrayMerge: number}}
- */
 const optionsDefault = {
   __v__: 1,
   clone: -Infinity,
   unEnumerableInclude: false,
   arrayPolicy: arrayMergePolicies.ARRAY_NORMAL,
   // (a, b) => a.push(b) && a
-  arrayMerge: 0
+  arrayMerge: undefined,
+  deepMap: true
 }
 /**
  * @param target
  * @param source
  * @param options
+ * @param {boolean|number = -Infinity} options.clone - if clone target. <br/>> true for all, false for none, <br/>> number<0 for reuse depth, number>0 for clone depth
+ * @param {boolean} options.unEnumerableInclude - if include keys not enumerable
+ * @param {arrayMergePolicies} [options.arrayPolicy=ARRAY_NORMAL] - array merge policy of build-in
+ * @param {function} [options.arrayMerge] - custom array merger, (a, b) => result
+ * @param {boolean} [options.deepMap=true] - if dig in Map items
  * @return {*|{}|[]|[]}
  */
 export default function deepMerge(target, source, options) {
@@ -113,7 +116,7 @@ export default function deepMerge(target, source, options) {
       break
     case 4:
       [...source.entries()].forEach(v => {
-        target.set(v[0], deepMerge(target.get(v[0]), v[1], options, aLoops))
+        target.set(v[0], options.deepMap ? deepMerge(target.get(v[0]), v[1], options, aLoops) : v[1])
       })
       break
   }
