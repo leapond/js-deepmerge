@@ -19,7 +19,10 @@ yarn add leapond-deepmerge
 ## Usage
 
 ```javascript
+// bundled
 import deepMerge from "leapond-deepmerge";
+// source (recommend)
+import deepMerge from "leapond-deepmerge/src";
 
 console.log(deepMerge(
     {a: 1, b: {x: 1}, c: [0, 1], d: new Set, e: new Map([[1, {x: 1}]])},

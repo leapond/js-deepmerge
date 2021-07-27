@@ -1,5 +1,5 @@
-import deepCopy from "leapond-deepcopy";
-import {getMergeType} from "leapond-js-utils";
+import deepCopy from "leapond-deepcopy/src";
+import {getMergeType} from "leapond-js-utils/src";
 
 
 const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
