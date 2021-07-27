@@ -1,8 +1,10 @@
 import deepCopy from "leapond-deepcopy";
 import {getMergeType} from "leapond-js-utils";
 
+
+const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
 /**
- * @property ARRAY_NORMAL - write by index
+ * @property ARRAY_NORMAL - write by deepMerge
  * @property ARRAY_NORMAL_FIXED - existed item will be readonly, but can increase new item
  * @property ARRAY_CONCAT - concat to target array
  * @property ARRAY_CONCAT_UNIQ - concat to target array, but skip existed item
@@ -20,7 +22,7 @@ const arrayMergePolicies = {
   ARRAY_FREEZE: 5
 }
 const optionsDefault = {
-  __v__: 1,
+  [INNER_MARK]: 1,
   clone: -Infinity,
   unEnumerableInclude: false,
   arrayPolicy: arrayMergePolicies.ARRAY_NORMAL,
@@ -28,8 +30,6 @@ const optionsDefault = {
   arrayMerge: undefined,
   deepMap: true
 }
-
-const INNER_MARK = Symbol(''/*<DEV*/ + 'INNER'/*DEV>*/)
 
 /**
  * @typedef mergeOptions
@@ -53,7 +53,7 @@ function deepMerge(target, source, options) {
   // detect root and merge options
   if (options && options[INNER_MARK]) isRoot = false; else options = parseOptions(options)
   // init loop circle and depth recorder
-  if (isRoot) {
+  if (isRoot || arguments[4]) { // arguments[4] is passed by batch()
     // create new loops
     aLoops = [source]
     depthCurrent = aLoops.depthCurrent = 1
@@ -73,7 +73,6 @@ function deepMerge(target, source, options) {
   aLoops.depthCurrent = depthCurrent
 
   // clone target current level
-  //if (options.clone && (options.clone > 0 ? depthCurrent <= options.clone : depthCurrent >= -options.clone)) target = deepCopy(target, 1)
   if ((options.clone > 0 && depthCurrent <= options.clone) || (options.clone < 0 && depthCurrent > -options.clone)) target = deepCopy(target, 1)
 
   switch (typeSource) {
@@ -115,14 +114,10 @@ function deepMerge(target, source, options) {
       }
       break
     case 3:
-      [...source.values()].forEach(v => {
-        target.add(v)
-      });
+      source.forEach(v => target.add(v))
       break
     case 4:
-      [...source.entries()].forEach(v => {
-        target.set(v[0], options.deepMap ? deepMerge(target.get(v[0]), v[1], options, aLoops) : v[1])
-      })
+      source.forEach((v, k) => target.set(k, options.deepMap ? deepMerge(target.get(k), v, options, aLoops) : v))
       break
   }
   return target
@@ -136,7 +131,7 @@ function deepMerge(target, source, options) {
  */
 deepMerge.batch = function (aTargets, options) {
   options = parseOptions(options)
-  return aTargets.reduce((a, b) => deepMerge(a, b, options))
+  return aTargets.reduce((a, b) => deepMerge(a, b, options, null, true))
 }
 
 function parseOptions(options) {

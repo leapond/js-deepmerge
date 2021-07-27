@@ -2,8 +2,9 @@
   "name": "leapond-deepmerge",
   "version": "1.0.7",
   "description": "Object, Array, Set, Map supported deepmerge.",
-  "main": "dist/deep-merge.cjs.js",
-  "module": "dist/deep-merge.es.js",
+  "main": "dist/deep-merge-bundle.cjs.js",
+  "module": "dist/deep-merge-bundle.es.js",
+  "browser": "dist/deep-merge-bundle.iife.js",
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -wc",
@@ -34,7 +35,7 @@
   },
   "homepage": "https://github.com/leapond/js-deepmerge#readme",
   "dependencies": {
-    "leapond-deepcopy": "^1.0.1",
+    "leapond-deepcopy": "^1.0.3",
     "leapond-js-utils": "^1.0.3"
   },
   "devDependencies": {
@@ -45,7 +46,9 @@
     "@types/jest": "^26.0.24",
     "assert": "^2.0.0",
     "jest": "^27.0.6",
+    "leapond-rollup-plugin-replace": "^1.0.1",
     "rollup": "^2.54.0",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-serve": "^1.1.0"
   },
   "jest": {
