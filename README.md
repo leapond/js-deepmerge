@@ -2,6 +2,20 @@
 
 Object, Array, Set, Map supported deepmerge.
 
+## Power
+
+1. Dig Object/Array/Map() Objects, merge Set() items. (WeakSet/WeakMap can not be merged)
+1. Circled Reference detecting and safety
+1. Target clone/reuse options supported `options.clone`:
+    1. `0,false,-Infinity,default` reuse all. all `target`'s existed object will be reused.)
+    1. `true, Infinity` clone all Objects/Array/Map/Set
+    1. `number>0` clone depth
+    1. `number<0` reuse depth(`-2` means `target` and `target.a` will be reused, and deeper items will be cloned)
+1. Powerful Array merge build-in Polices: `options.arrayPolicy: deepMerge.ARRAY_CONCAT_UNIQ`
+1. Custom Array merge function define: `options.arrayMerge`
+
+Found more in the `Options` document and Enjoy your playing. 🏓
+
 ## Installation
 
 **NPM**
