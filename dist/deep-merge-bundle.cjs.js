@@ -19,7 +19,7 @@ function getMergeType$1(target) {
  * @return {Map<any, any>|Set<any>|*[]|*}
  */
 function deepCopy(target, depthMax) {
-  if ( depthMax === void 0 ) { depthMax = Infinity; }
+  if ( depthMax === void 0 ) depthMax = Infinity;
 
   if (!target) { return target }
   var args = arguments, typeTarget = args[2], depthCurrent = args[3] || 0, aLoops = args[4], dest, v;
@@ -61,8 +61,6 @@ var mergeTypes = {'[object Object]': 1, '[object Array]': 2, '[object Set]': 3, 
 function getMergeType(target) {
   return target &&
       typeof target === 'object' &&
-      // make Leapond Classes not be copy/merged
-      !('CID' in target) &&
       mergeTypes[toStr.call(target)] ||
       0
 }
