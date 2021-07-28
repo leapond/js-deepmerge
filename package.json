@@ -1,6 +1,6 @@
 {
   "name": "leapond-deepmerge",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Object, Array, Set, Map supported deepmerge.",
   "main": "dist/deep-merge-bundle.cjs.js",
   "module": "dist/deep-merge-bundle.es.js",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/leapond/js-deepmerge#readme",
   "dependencies": {
-    "leapond-deepcopy": "^1.0.3",
+    "leapond-deepcopy": "^1.0.6",
     "leapond-js-utils": "^1.0.6"
   },
   "devDependencies": {
