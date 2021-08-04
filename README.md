@@ -1,6 +1,6 @@
 # This project has been deprecated
 
-Moved to [https://gitea.com/leapond/utilities](@leapond/utilities)
+Moved to [@leapond/utilities](https://gitea.com/leapond/utilities)
 
 # js-deepmerge
 
