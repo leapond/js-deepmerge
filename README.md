@@ -1,3 +1,7 @@
+# This project has been deprecated
+
+Moved to [https://gitea.com/leapond/utilities](@leapond/utilities)
+
 # js-deepmerge
 
 Object, Array, Set, Map supported deepmerge.
